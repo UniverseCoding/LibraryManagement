@@ -9,7 +9,6 @@ import javax.swing.SwingUtilities;
 import java.awt.event.*;
 import java.awt.*;
 
-
 public class DashboardDesign {
     JFrame frame;
     JButton b1,b2,b3,b4,b5,b6;
