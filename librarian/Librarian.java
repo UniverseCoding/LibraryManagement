@@ -1,7 +1,7 @@
 
 package librarian;
 import dashboardDesign.*;
-public class Librarian {
+public class Librarian{
     /**
      * @param args the command line arguments
      */
@@ -10,6 +10,7 @@ public class Librarian {
         DashboardDesign dashObj=new DashboardDesign();
         dashObj.menu();
         dashObj.frameButton();
+        dashObj.setVisible(true);
     }    
 }
 
