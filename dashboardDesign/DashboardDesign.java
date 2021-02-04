@@ -76,20 +76,20 @@ public class DashboardDesign extends JFrame{  // Container **
     public void frameButton()
     {
         b1=new JButton("Check BOOK");
-        b1.setBounds(200,200, 130, 130);
-        b2=new JButton("Book Search");
-        b2.setBounds(400,200, 130, 130);
-
+        b2=new JButton("Book Search"); 
         b3=new JButton();
-        b3.setBounds(600,200, 130, 130);
         b4=new JButton();
-        b4.setBounds(800,200, 130, 130);
-
+        
+        b1.setBounds(200,200, 130, 130);
+        b2.setBounds(475,200, 130, 130);
+        b3.setBounds(750,200, 130, 130);
+        b4.setBounds(1025,200, 130, 130);
+        
         b1.setBackground(new Color(204, 255, 204));
         b2.setBackground(new Color(204, 255, 204));
         b3.setBackground(new Color(204, 255, 204));
         b4.setBackground(new Color(204, 255, 204));
-
+        
         add(b1);
         add(b2);
         add(b3);
