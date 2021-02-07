@@ -73,7 +73,7 @@ public class DashboardDesign extends JFrame implements ActionListener{  // Conta
     ImageIcon newImc1,newImc2,newImc3,newImc4,newImc5,newImc6,newImc7,newImc8;
     private void setIconSize()
     {
-        ImageIcon icon1=new ImageIcon("G:/Project 2021/Library Management System/Librarian/src/dashboardDesign/p1.png");
+        ImageIcon icon1=new ImageIcon("G:/Project 2021/Library Management System/Librarian/src/dashboardDesign/p1.png");   //Please change image path
         ImageIcon icon2=new ImageIcon("G:/Project 2021/Library Management System/Librarian/src/dashboardDesign/p5.png");
         ImageIcon icon3=new ImageIcon("G:/Project 2021/Library Management System/Librarian/src/dashboardDesign/p1.png");
         ImageIcon icon4=new ImageIcon("G:/Project 2021/Library Management System/Librarian/src/dashboardDesign/p3.png");
