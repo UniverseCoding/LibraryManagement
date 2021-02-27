@@ -35,7 +35,7 @@ public class DashboardDesign extends JFrame implements ActionListener{  // Conta
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE );
     }
-    public void menu() 
+    public void menu()
     {
         
         file=new JMenu("File");
@@ -75,14 +75,14 @@ public class DashboardDesign extends JFrame implements ActionListener{  // Conta
     ImageIcon newImc1,newImc2,newImc3,newImc4,newImc5,newImc6,newImc7,newImc8;
     private void setIconSize()
     {
-        ImageIcon icon1=new ImageIcon("G:/Project 2021/Library Management System/Librarian/src/dashboardDesign/p1.png");   //Please change image path
-        ImageIcon icon2=new ImageIcon("G:/Project 2021/Library Management System/Librarian/src/dashboardDesign/p5.png");
-        ImageIcon icon3=new ImageIcon("G:/Project 2021/Library Management System/Librarian/src/dashboardDesign/p1.png");
-        ImageIcon icon4=new ImageIcon("G:/Project 2021/Library Management System/Librarian/src/dashboardDesign/p3.png");
-        ImageIcon icon5=new ImageIcon("G:/Project 2021/Library Management System/Librarian/src/dashboardDesign/p7.png");
-        ImageIcon icon6=new ImageIcon("G:/Project 2021/Library Management System/Librarian/src/dashboardDesign/p7.png");
-        ImageIcon icon7=new ImageIcon("G:/Project 2021/Library Management System/Librarian/src/dashboardDesign/p2.png");
-        ImageIcon icon8=new ImageIcon("G:/Project 2021/Library Management System/Librarian/src/dashboardDesign/p4.png");
+        ImageIcon icon1=new ImageIcon("C:/Users/SOHARAB/Documents/NetBeansProjects/LibraryManagment/src/dashboardDesign/p1.png");   //Please change image path
+        ImageIcon icon2=new ImageIcon("C:/Users/SOHARAB/Documents/NetBeansProjects/LibraryManagment/src/dashboardDesign/p5.png");
+        ImageIcon icon3=new ImageIcon("C:/Users/SOHARAB/Documents/NetBeansProjects/LibraryManagment/src/dashboardDesign/p1.png");
+        ImageIcon icon4=new ImageIcon("C:/Users/SOHARAB/Documents/NetBeansProjects/LibraryManagment/src/dashboardDesign/p3.png");
+        ImageIcon icon5=new ImageIcon("C:/Users/SOHARAB/Documents/NetBeansProjects/LibraryManagment/src/dashboardDesign/p7.png");
+        ImageIcon icon6=new ImageIcon("C:/Users/SOHARAB/Documents/NetBeansProjects/LibraryManagment/src/dashboardDesign/p7.png");
+        ImageIcon icon7=new ImageIcon("C:/Users/SOHARAB/Documents/NetBeansProjects/LibraryManagment/src/dashboardDesign/p2.png");
+        ImageIcon icon8=new ImageIcon("C:/Users/SOHARAB/Documents/NetBeansProjects/LibraryManagment/src/dashboardDesign/p4.png");
         
         Image img1 = icon1.getImage();
         Image img2 = icon2.getImage();
@@ -173,6 +173,7 @@ public class DashboardDesign extends JFrame implements ActionListener{  // Conta
         if(source == b2)
         {
             NewBook nb=new NewBook();
+            nb.gui();
         }
         if(source == b3)
         {
@@ -186,10 +187,13 @@ public class DashboardDesign extends JFrame implements ActionListener{  // Conta
         if(source == b5)
         {
             IssueBook ib=new IssueBook();
+            ib.gui();
         }
         if(source == b6)
         {
             ReturnBook rb=new ReturnBook();
+           
+            
         }
         if(source == b7)
         {

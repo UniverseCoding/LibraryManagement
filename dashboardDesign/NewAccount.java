@@ -6,14 +6,20 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import librarian.Librarian;
 
 
 public class NewAccount extends JFrame 
@@ -78,16 +84,22 @@ public class NewAccount extends JFrame
        //Buttons Section.
        b1 =new JButton("Submit"); // create buttons object and gave a name.
        b2 = new JButton("Clear All");
-       b3 = new JButton("Back");
-       b1.setBounds(630,315,95,35); // set location and size of Buttons.
-       b2.setBounds(750,315,95,35);
-       b3.setBounds(1056,11,95,35);
+       b3 = new JButton();
+       b1.setBounds(372,315,210,35); // set location and size of Buttons.
+       b2.setBounds(622,315,210,35);
+       b3.setBounds(765,31,65,25);
        add(b1); // add Buttons to Frame.
        add(b2);
        add(b3);
        b1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 // Insert code here
+                if(t1.getText().isEmpty() || p1.getText().isEmpty() || p2.getText().isEmpty()){
+                    
+                
+                JOptionPane.showMessageDialog(null,"Please Fill up All field");
+                }
+               
             }
         });
        b2.addActionListener(new ActionListener() {
@@ -99,12 +111,16 @@ public class NewAccount extends JFrame
                 
             }
         });
+       b3.setFocusable(true);
+       b3.setContentAreaFilled(false);
+       Image img = Toolkit.getDefaultToolkit().getImage("C:/Users/SOHARAB/Desktop/icon.png");
+       Image newimg = img.getScaledInstance(65, 25,1);
+       ImageIcon icon = new ImageIcon(newimg);
+       b3.setIcon(icon);
        b3.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 // Insert code here
-                dispose();
-               DashboardDesign dbd = new DashboardDesign();
-               dbd.setVisible(true);
+              Librarian obj = new Librarian();
             }
         });
        
@@ -117,6 +133,6 @@ public class NewAccount extends JFrame
         Graphics2D g1 = (Graphics2D) g;
         g1.setPaint(new Color(0, 0, 0));
         g1.setStroke(new BasicStroke(2.0f));
-        g1.drawRoundRect(170, 77, 710, 250, 50, 50);  //50 and 50 is round size & x and y is position of rectangle
+        g1.drawRoundRect(170, 63, 710, 360, 50, 50);  //50 and 50 is round size & x and y is position of rectangle
      }
 }
