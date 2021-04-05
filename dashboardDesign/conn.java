@@ -1,6 +1,7 @@
+
 package dashboardDesign;
 import java.sql.*;
-import com.mysql.jdbc.Connection;
+import java.sql.Connection;
 
 public class Conn {
     
@@ -21,3 +22,4 @@ public class Conn {
      
         }      
     }  
+}
