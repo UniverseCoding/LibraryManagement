@@ -7,6 +7,10 @@ import java.awt.Container;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.PreparedStatement;
+import librarian.Librarian;
 
 public class NewStudent extends JFrame 
 {
@@ -83,7 +87,71 @@ public class NewStudent extends JFrame
         JComboBox cb = new JComboBox(year);
         cb.setBounds(600,460,240,30);
         add(cb);
+        
+         b2.addActionListener(new ActionListener(){
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            Librarian ob = new Librarian();
+            setVisible(false);
+        }
+        });
+      
+      b1.addActionListener(new ActionListener(){
+        @Override
+        public void actionPerformed(ActionEvent e) {
+         
+         
+           String year = cb.getSelectedItem().toString();
+           String student_name=j1.getText();
+           String student_id=j2.getText();
+           String email_id=j3.getText();
+           String mobile_no=(j4.getText());     
+           String course_name=j5.getText();
+           String branch=j6.getText();     
+           String address=j7.getText();
+           if(student_id.isEmpty()){
+              JOptionPane.showMessageDialog(null, "Please Fill up all field");
+           }  
+           else{
+            data_base_update(student_name,student_id,email_id,mobile_no,course_name,branch,year,address);
+        } 
+      }
+    
+    });
     }
+        
+          public void data_base_update(String student_name,String student_id,String email_id,String mobile_no,String course_name, String branch, String year, String address){
+          
+          try{ 
+                Conn con = new Conn();               
+                String sql = "INSERT INTO new_student VALUES(?,?,?,?,?,?,?,?)";
+		PreparedStatement st = con.c.prepareStatement(sql);
+               
+                
+                st.setString(1,student_name);
+                st.setString(2,student_id);
+                st.setString(3,email_id);
+                st.setString(4,mobile_no);
+                st.setString(5,course_name);
+                st.setString(6,branch);
+                st.setString(7,year);             
+                st.setString(8,address);
+                
+                int rs = st.executeUpdate();
+                st.close();
+                if (rs > 0)
+                    JOptionPane.showMessageDialog(null, "Successfully Added");
+		else
+                    JOptionPane.showMessageDialog(null, "Error");
+                
+                 }catch(Exception ea){
+                  System.out.println(ea);  
+                                
+            }
+            }
+         
+    
+    
      @Override
     public void paint(Graphics g) {
         super.paint(g); 
@@ -97,7 +165,7 @@ public class NewStudent extends JFrame
         
         g.setFont(g.getFont().deriveFont(18f));
         g.drawString("Student name :", 430, 150);
-        g.drawString("User id :", 430, 210);
+        g.drawString("Student id :", 430, 210);
         g.drawString("Email id :", 430, 270);
         g.drawString("Mobile No :", 430, 330);
         g.drawString("Course name :", 430,390);
