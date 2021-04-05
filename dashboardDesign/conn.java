@@ -1,8 +1,5 @@
-
 package dashboardDesign;
 import java.sql.*;
-import java.sql.Connection;
-
 public class Conn {
     
       Connection c;
@@ -14,7 +11,7 @@ public class Conn {
     public Conn(){  
         try{  
             Class.forName("com.mysql.jdbc.Driver");  
-            c =(Connection) DriverManager.getConnection(url,username,password);    
+            c = DriverManager.getConnection(url,username,password);    
             s =c.createStatement();  
                                
         }catch(Exception e){ 
