@@ -1,181 +1,43 @@
+
 package dashboardDesign;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import javax.swing.*;
-import java.awt.Container;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import com.toedter.calendar.JDateChooser;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import librarian.Librarian;
 
-public class NewStudent extends JFrame 
-{
-    private final Container c;
-    private Font f, font;
-    private JButton b1, b2;
-    NewStudent()
+public class ReturnBook extends JFrame{
+    
+    JLabel l,l1,l2,l3,l4,l5,l6;
+    JTextField t1,t2,t3,t4; 
+    JButton b1,b2,b3;
+    JDateChooser datechooser1, datechooser2;
+    
+
+    ReturnBook()
     {
         setTitle("Library Management System");
-        setBounds(500,220,350,400);
+        setSize(1500,700);
+        getContentPane().setBackground(new Color(204, 255, 204));
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
         setLayout(null);
-        c = this.getContentPane();
-        c.setBackground(Color.getHSBColor(142,82,82));
-     
-        
+ 
     }
-    public void gui()
-    {
-        
-        //creat JTextField
-        JTextField j1 = new JTextField(" ");
-        JTextField j2 = new JTextField(" ");
-        JTextField j3 = new JTextField(" ");
-        JTextField j4 = new JTextField(" ");
-        JTextField j5= new JTextField(" ");
-        JTextField j6= new JTextField(" ");
-        JTextField j7 = new JTextField(" ");
-        
-        // set JTextField location
-        j1.setBounds(600,100,240,30);
-        j2.setBounds(600,160,240,30);
-        j3.setBounds(600,220,240,30);
-        j4.setBounds(600,280,240,30);
-        j5.setBounds(600,340,240,30);
-        j6.setBounds(600,400,240,30);
-        j7.setBounds(600,520,240,50);
-        
-        // Added JTextField
-        add(j1);
-        add(j2);
-        add(j3);
-        add(j4);
-        add(j5);
-        add(j6);
-        add(j7);
-        
-        //Create button1 
-        JButton b1=new JButton("Submit");
-        b1.setBounds(605,605,90,35);
-        b1.setFont(font);
-        b1.setForeground(Color.BLACK);
-        b1.setBackground(Color.CYAN);
-        add(b1);
-        
-         //Create button2
-        JButton b2=new JButton("Cancel");
-        b2.setBounds(740,605,90,35);
-        b2.setFont(font);
-        b2.setForeground(Color.BLACK);
-        b2.setBackground(Color.CYAN);
-        add(b2);
-        //create JLabel  
-        JLabel l=new JLabel("Student Register");
-        l.setFont(new Font("Bold", 1,25));
-        l.setBounds(610,30,250,30);
-        add(l);
-        
-        //Create jComboBox
-        String year[] = {"1st year","2nd year", "3rd year", "4th year"};
-        JComboBox cb = new JComboBox(year);
-        cb.setBounds(600,460,240,30);
-        add(cb);
-        
-         b2.addActionListener(new ActionListener(){
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            Librarian ob = new Librarian();
-            setVisible(false);
-        }
-        });
-      
-      b1.addActionListener(new ActionListener(){
-        @Override
-        public void actionPerformed(ActionEvent e) {
-         
-         
-           String year = cb.getSelectedItem().toString();
-           String student_name=j1.getText();
-           String student_id=j2.getText();
-           String email_id=j3.getText();
-           String mobile_no=(j4.getText());     
-           String course_name=j5.getText();
-           String branch=j6.getText();     
-           String address=j7.getText();
-           if(student_id.isEmpty()){
-              JOptionPane.showMessageDialog(null, "Please Fill up all field");
-           }  
-           else{
-            data_base_update(student_name,student_id,email_id,mobile_no,course_name,branch,year,address);
-        } 
-      }
-    
-    });
-    }
-        
-          public void data_base_update(String student_name,String student_id,String email_id,String mobile_no,String course_name, String branch, String year, String address){
-          
-          try{ 
-                Conn con = new Conn();               
-                String sql = "INSERT INTO new_student VALUES(?,?,?,?,?,?,?,?)";
-		PreparedStatement st = con.c.prepareStatement(sql);
-               
-                
-                st.setString(1,student_name);
-                st.setString(2,student_id);
-                st.setString(3,email_id);
-                st.setString(4,mobile_no);
-                st.setString(5,course_name);
-                st.setString(6,branch);
-                st.setString(7,year);             
-                st.setString(8,address);
-                
-                int rs = st.executeUpdate();
-                st.close();
-                if (rs > 0)
-                    JOptionPane.showMessageDialog(null, "Successfully Added");
-		else
-                    JOptionPane.showMessageDialog(null, "Error");
-                
-                 }catch(Exception ea){
-                  System.out.println(ea);  
-                                
-            }
-            }
-         
-    
-    
-     @Override
-    public void paint(Graphics g) {
-        super.paint(g); 
-        
-
-        //creat Rectangle      
-        Graphics2D g1 = (Graphics2D) g;
-        g1.setPaint(new Color(0, 153, 51));
-        g1.setStroke(new BasicStroke(2.0f));
-        g1.drawRoundRect(400, 50, 600, 668, 50, 50);
-        
-        g.setFont(g.getFont().deriveFont(18f));
-        g.drawString("Student name :", 430, 150);
-        g.drawString("Student id :", 430, 210);
-        g.drawString("Email id :", 430, 270);
-        g.drawString("Mobile No :", 430, 330);
-        g.drawString("Course name :", 430,390);
-        g.drawString("Branch :", 430, 450);
-        g.drawString("Year :", 430,510);
-        g.drawString("Address :", 430,570);
-        
-        
-    }
-}
     public void gui()
     {
         
@@ -183,9 +45,9 @@ public class NewStudent extends JFrame
                 
         l=new JLabel("Return Book");
         l1=new JLabel("Student id :");
-        l2=new JLabel("Student Name :");
-        l3=new JLabel("Book Name :");
-        l4=new JLabel("ISBN :");
+        l2=new JLabel("ISBN  :");
+        l3=new JLabel("Student Name :");
+        l4=new JLabel("Book Name :");
         l5=new JLabel("Date of Issue :");
         l6=new JLabel("Date of Return :");
         
@@ -205,7 +67,7 @@ public class NewStudent extends JFrame
         
         b1=new JButton("Submit");
         b2=new JButton("Cancel");
-        
+        b3=new JButton("search");
         l.setBounds(580,30,260,35);
         l1.setBounds(415,85,170,30);
         l2.setBounds(415,95,170,130);
@@ -214,13 +76,14 @@ public class NewStudent extends JFrame
         l5.setBounds(415,180,170,320);
         l6.setBounds(415,205,170,380);
         
-        t1.setBounds(570, 85,230,30);
-        t2.setBounds(570,145,230,30);
+        t1.setBounds(570, 85,170,30);
+        t2.setBounds(570,145,170,30);
         t3.setBounds(570,205,230,30);
         t4.setBounds(570,265,230,30);
         
         b1.setBounds(570, 440, 75, 30);
         b2.setBounds(660,440, 75, 30);
+        b3.setBounds(770,115,80,35);
         
         
         add(l);
@@ -238,6 +101,7 @@ public class NewStudent extends JFrame
         
         add(b1);
         add(b2);
+        add(b3);
         
         // JDateChooser create
         datechooser1 = new JDateChooser();
@@ -247,6 +111,44 @@ public class NewStudent extends JFrame
         datechooser2 = new JDateChooser();
         datechooser2.setBounds(570,385,150,30);
         add(datechooser2);
+        
+        b2.addActionListener(new ActionListener(){
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            Librarian ob = new Librarian();
+            setVisible(false);
+        }
+        });
+        
+        b3.addActionListener(new ActionListener(){
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            
+           try{
+               Conn con = new Conn();
+                String sql = "select * from issue_book where student_id = ?";
+		PreparedStatement st = con.c.prepareStatement(sql);
+		st.setString(1, t1.getText());
+                ResultSet rs = st.executeQuery();
+                
+                while (rs.next()) {
+                    t4.setText(rs.getString("book_name"));
+                  //  t3.setText(rs.getString("sname"));
+                   // t4.setText(rs.getString("course"));
+                    
+		}
+		st.close();
+		rs.close();
+		
+               
+               
+           }catch(Exception ea){
+                  System.out.println(ea); 
+               
+           }
+                     
+        }
+        });
         
         
         
@@ -258,7 +160,7 @@ public class NewStudent extends JFrame
         Graphics2D g1 = (Graphics2D) g;
         g1.setPaint(new Color(0, 0, 0));
         g1.setStroke(new BasicStroke(2.0f));
-        g1.drawRoundRect(400, 50, 500, 490, 50, 50);  //50 and 50 is round size & x and y is position of rectangle
+        g1.drawRoundRect(400, 50, 500,510, 50, 50);  //50 and 50 is round size & x and y is position of rectangle
      
     }
 }
