@@ -8,6 +8,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -23,12 +24,14 @@ public class IssueBook extends JFrame{
     
 
     //create a object of the class PraperStatement and initialize to null.
+    Connection con = null;
     PreparedStatement pst =null;
     //Creating the Constractor.
     IssueBook()
     {
         setTitle("Library Management System");
         setSize(1500,700);
+        getContentPane().setBackground(new Color(204, 255, 190));
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -80,7 +83,7 @@ public class IssueBook extends JFrame{
         textFieldIsbn.setBounds(570,280,250,30);
 
         //create a new font for text fields.
-        Font fnt = new Font("Soharab",Font.ROMAN_BASELINE,16);
+        Font fnt = new Font("Soharab",Font.ROMAN_BASELINE,22);
         //set font to Text Fields.
         textFieldStudentId.setFont(fnt);
         textFieldBookName.setFont(fnt);
@@ -106,10 +109,10 @@ public class IssueBook extends JFrame{
                 else{
                     try{
                         //create the object of Connection class
-                        Conn con = new Conn();                       
-                        String sql = "INSERT INTO issue_book VALUES (?,?,?,curdate(),DATE_ADD(curdate(), INTERVAL 3 month))";
+                        Conn conn = new Conn();                       
+                        String sql = "INSERT INTO issueBook(`studentId`, `bookName`, `isbn`, `date`, `returnDate`) VALUES (?,?,?,curdate(),DATE_ADD(curdate(), INTERVAL 3 month))";
                        //sql queries statement for insert data into database
-                        pst = con.c.prepareStatement(sql);
+                        pst =conn.con.prepareStatement(sql);
                         pst.setString(1,textFieldStudentId.getText());
                         pst.setString(2,textFieldBookName.getText());
                         pst.setString(3,textFieldIsbn.getText());
@@ -161,6 +164,3 @@ public class IssueBook extends JFrame{
         
     }
 }
-
-
-
