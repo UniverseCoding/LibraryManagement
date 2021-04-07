@@ -73,14 +73,14 @@ public class DashboardDesign extends JFrame implements ActionListener{  // Conta
     ImageIcon newImc1,newImc2,newImc3,newImc4,newImc5,newImc6,newImc7,newImc8;
     private void setIconSize()
     {
-        ImageIcon icon1=new ImageIcon("G:/Project 2021/Library Management System/Librarian/src/dashboardDesign/p1.png");   //Please change image path
-        ImageIcon icon2=new ImageIcon("G:/Project 2021/Library Management System/Librarian/src/dashboardDesign/p5.png");
-        ImageIcon icon3=new ImageIcon("G:/Project 2021/Library Management System/Librarian/src/dashboardDesign/p1.png");
-        ImageIcon icon4=new ImageIcon("G:/Project 2021/Library Management System/Librarian/src/dashboardDesign/p3.png");
-        ImageIcon icon5=new ImageIcon("G:/Project 2021/Library Management System/Librarian/src/dashboardDesign/p7.png");
-        ImageIcon icon6=new ImageIcon("G:/Project 2021/Library Management System/Librarian/src/dashboardDesign/p7.png");
-        ImageIcon icon7=new ImageIcon("G:/Project 2021/Library Management System/Librarian/src/dashboardDesign/p2.png");
-        ImageIcon icon8=new ImageIcon("G:/Project 2021/Library Management System/Librarian/src/dashboardDesign/p4.png");
+        ImageIcon icon1=new ImageIcon("C:/Users/User/Documents/NetBeansProjects/LibraryManagement/librarian/src/dashboardDesign/p1.png");   //Please change image path
+        ImageIcon icon2=new ImageIcon("C:/Users/User/Documents/NetBeansProjects/LibraryManagement/librarian/src/dashboardDesign/p5.png");
+        ImageIcon icon3=new ImageIcon("C:/Users/User/Documents/NetBeansProjects/LibraryManagement/librarian/src/dashboardDesign/p1.png");
+        ImageIcon icon4=new ImageIcon("C:/Users/User/Documents/NetBeansProjects/LibraryManagement/librarian/src/dashboardDesign/p3.png");
+        ImageIcon icon5=new ImageIcon("C:/Users/User/Documents/NetBeansProjects/LibraryManagement/librarian/src/dashboardDesign/p7.png");
+        ImageIcon icon6=new ImageIcon("C:/Users/User/Documents/NetBeansProjects/LibraryManagement/librarian/src/dashboardDesign/p7.png");
+        ImageIcon icon7=new ImageIcon("C:/Users/User/Documents/NetBeansProjects/LibraryManagement/librarian/src/dashboardDesign/p2.png");
+        ImageIcon icon8=new ImageIcon("C:/Users/User/Documents/NetBeansProjects/LibraryManagement/librarian/src/dashboardDesign/p4.png");
         
         Image img1 = icon1.getImage();
         Image img2 = icon2.getImage();
@@ -167,14 +167,17 @@ public class DashboardDesign extends JFrame implements ActionListener{  // Conta
         if(source == b1)
         {
             NewStudent ns=new NewStudent();
+            ns.gui();
         }
         if(source == b2)
         {
             NewBook nb=new NewBook();
+            nb.gui();
         }
         if(source == b3)
         {
             NewAccount na=new NewAccount();
+            na.gui();
         }
         if(source == b4)
         {
@@ -183,10 +186,12 @@ public class DashboardDesign extends JFrame implements ActionListener{  // Conta
         if(source == b5)
         {
             IssueBook ib=new IssueBook();
+            ib.gui();
         }
         if(source == b6)
         {
             ReturnBook rb=new ReturnBook();
+            rb.gui();
         }
         if(source == b7)
         {
@@ -216,10 +221,10 @@ public class DashboardDesign extends JFrame implements ActionListener{  // Conta
         g2.drawRoundRect(145, 485, 1080, 190, 50, 50);  //50 and 50 is round size of rectangle
         
         g.setFont(g.getFont().deriveFont(15f));
-//        g.setFont(new Font("Bold", Font.PLAIN, 15)); 
+       // g.setFont(new Font("Bold", Font.PLAIN, 15)); 
 
-        g.drawString("Operation", 175, 234);
-        g.drawString("Action", 175, 490);
+        g.drawString("Operation", 175, 220);
+        g.drawString("Action", 175, 475);
         
         g.drawString("New Student", 232, 400);
         g.drawString("New Book", 515, 400);
@@ -232,4 +237,6 @@ public class DashboardDesign extends JFrame implements ActionListener{  // Conta
     }
 
 }
+
+
 
