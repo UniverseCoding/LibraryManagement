@@ -11,13 +11,16 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import javax.swing.JOptionPane;
 import librarian.Librarian;
 
 public class ReturnBook extends JFrame{
     
     JLabel l,l1,l2,l3,l4,l5;
     JTextField t1,t2,t3,t4,t5; 
-    JButton b1,b2;
+    JButton b1,b2,b3;
     
     ReturnBook()
     {
@@ -59,6 +62,7 @@ public class ReturnBook extends JFrame{
         
         b1=new JButton("Submit");
         b2=new JButton("Cancel");
+        b3 = new JButton("Search");
         //set jlabel location
         l.setBounds(580,30,260,35);
         l1.setBounds(415,85,170,30);
@@ -75,6 +79,44 @@ public class ReturnBook extends JFrame{
         //set jButton location
         b1.setBounds(590, 400, 85, 30);
         b2.setBounds(690,400, 85, 30);
+        b3.setBounds(806,84,80,30);
+        b3.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e)
+            {
+                
+                   
+                PreparedStatement pst = null;
+                ResultSet rs =null;
+                
+                try{
+                     Conn conn = new Conn();
+                     String s = t1.getText();
+                     String nm = "Salamaddin sk";
+                     String sql = "select *from issueBook where studentId='"+s+"'";
+                     String sql2 = "select *from newaccount where Name='"+nm+"'";
+                     pst =conn.con.prepareStatement(sql);
+                     rs = pst.executeQuery(sql);
+                     
+                     if(rs.next()){
+                         t2.setText(rs.getString("isbn"));
+                         /*t3.setText(rs.getString("studentName"));
+                         t4.setText(rs.getString("book Name"));*/
+                     }
+                     rs = pst.executeQuery(sql2);
+                     if(rs.next()){
+                         t3.setText(rs.getString("Name"));
+                         /*t3.setText(rs.getString("studentName"));
+                         t4.setText(rs.getString("book Name"));*/
+                     }
+                    }
+                 catch(Exception aa)
+                {
+                    JOptionPane.showMessageDialog(null,aa);
+                }
+            
+                   
+            }
+        });
         
         
         //Jlabel added
@@ -94,6 +136,7 @@ public class ReturnBook extends JFrame{
         
         add(b1);
         add(b2);
+        add(b3);
         
   
         
@@ -116,7 +159,3 @@ public class ReturnBook extends JFrame{
      
     }
 }
-
-
-
-
