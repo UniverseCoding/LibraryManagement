@@ -10,7 +10,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -18,9 +20,10 @@ import javax.swing.JTextField;
 import librarian.Librarian;
 
 public class IssueBook extends JFrame{
-    JLabel labelStudentId,labelBookName,labelIsbn,labelHeading;
-    JTextField textFieldStudentId,textFieldBookName,textFieldIsbn;
-    JButton submitButton,cancelButton;
+    JLabel labelStudentId,labelBookName,labelIsbn,labelHeading,labelStudentName,labelCategory;
+    JTextField textFieldStudentId,textFieldStudentName,textFieldBookName,textFieldIsbn;
+    JButton submitButton,cancelButton,searchButton;
+    JComboBox comboBoxCategory;
     
 
     //create a object of the class PraperStatement and initialize to null.
@@ -44,43 +47,64 @@ public class IssueBook extends JFrame{
     {
         Font font = new Font("Soharab",Font.BOLD, 23);//Create a new font.
         Font fonbookName = new Font("Soharab",Font.BOLD, 43);//Create another new font.
+   /* //JComboBox.
+         String category[]={"Select","Arts","Science","Biographies","Business","Comics","Computer & Tech",
+                           "Cooking","Entertainment","Health & Fitness","History","Literature","Medical",
+                           "Religion","Romance","Self-Help","Sports","Travel","Others"};
+        comboBoxCategory = new JComboBox(category);
+        comboBoxCategory.setBounds(580,223,250,30);
+        add(comboBoxCategory);*/
+       
     //JLabels.
         //give name to the labels.
         labelHeading=new JLabel("Issue Book");
         labelStudentId=new JLabel("Student Id: ");
         labelBookName=new JLabel("Book Name:");
         labelIsbn=new JLabel("ISBN:");
+        labelStudentName = new JLabel("Student Name:");
+        labelCategory = new JLabel("Category: ");
         //set the new create fonts to the labels.
         labelStudentId.setFont(font);
         labelBookName.setFont(font);
         labelIsbn.setFont(font);
+        labelStudentName.setFont(font);
         labelHeading.setFont(fonbookName);
+        labelCategory.setFont(font);
         //set Bounds of the labels.
         labelStudentId.setBounds(415,120,170,30);
-        labelBookName.setBounds(415,150,170,130);
-        labelIsbn.setBounds(415,190,170,200);
+        labelStudentName.setBounds(415,170,170,30);
+        labelCategory.setBounds(415,220,170,30);
+        labelBookName.setBounds(415,270,170,30);
+        labelIsbn.setBounds(415,320,199,30);
         labelHeading.setBounds(565,25,260,40);
+        
         //Add labels into the JFrame.
         add(labelHeading);
         add(labelStudentId);
         add(labelBookName);
         add(labelIsbn);
+        add(labelStudentName);
+        add(labelCategory);
         
     //TextFields.
         //create text Fields and their size.
         textFieldStudentId=new JTextField(20); 
         textFieldBookName=new JTextField(20);
         textFieldIsbn=new JTextField(20);
+        textFieldStudentName = new JTextField(20);
        
         //Add TextFields into the Frame.
         add(textFieldStudentId);
         add(textFieldBookName);
         add(textFieldIsbn);
+        add(textFieldStudentName);
       
         //set Bounds of the Text Fields.  
-        textFieldStudentId.setBounds(570,120,250,30);
-        textFieldBookName.setBounds(570,200,250,30);
-        textFieldIsbn.setBounds(570,280,250,30);
+        textFieldStudentId.setBounds(580,120,250,30);
+        textFieldStudentName.setBounds(580,170,250,30);
+        textFieldBookName.setBounds(580,280,250,30);
+        textFieldIsbn.setBounds(580,335,250,30);
+       
 
         //create a new font for text fields.
         Font fnt = new Font("Soharab",Font.ROMAN_BASELINE,22);
@@ -93,18 +117,26 @@ public class IssueBook extends JFrame{
         //create Buttons and set their Name.
         submitButton=new JButton("Submit");
         cancelButton=new JButton("Cancel");
+        searchButton = new JButton("Search");
         //set Bounds for Buttons.
         submitButton.setBounds(570, 402, 115, 40);
         cancelButton.setBounds(710, 402, 115, 40);
+        searchButton.setBounds(840,120,80,30);
         //set font to the buttons.
         submitButton.setFont(font);
         cancelButton.setFont(font);
+        //searchButton.setFont(font);
+        
         //Action Listener for Submit Button.
         submitButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 // Insert code here
-                if(textFieldStudentId.getText().isEmpty()||textFieldBookName.getText().isEmpty()||textFieldIsbn.getText().isEmpty()){
-                JOptionPane.showMessageDialog(null,"Please Fill up All field");
+                if(textFieldStudentId.getText().isEmpty()||textFieldBookName.getText().isEmpty()||textFieldIsbn.getText().isEmpty())
+                {
+                   JOptionPane.showMessageDialog(null,"Please Fill up All field");
+                }
+                else if(comboBoxCategory.getSelectedItem() == "Select"){
+                      JOptionPane.showMessageDialog(null,"Please Select a Category");
                 }
                 else{
                     try{
@@ -136,13 +168,42 @@ public class IssueBook extends JFrame{
               setVisible(false);
             }
         });
+        
         //AddButtonsinto the Frame.
         add(submitButton);
         add(cancelButton);
+        add(searchButton);
+        searchButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e)
+            {PreparedStatement pst = null;
+                ResultSet rs =null;
+                try{
+                     Conn conn = new Conn();
+                     String s = textFieldStudentId.getText();
+                     String sql = "select *from issueBook where studentId='"+s+"'";
+                     pst =conn.con.prepareStatement(sql);
+                     rs = pst.executeQuery(sql);
+                     if(rs.next()){
+                         textFieldStudentName.setText(rs.getString("studentname"));
+                         /*t3.setText(rs.getString("studentName"));
+                         t4.setText(rs.getString("book Name"));*/
+                    }
+                }
+                 catch(Exception aa)
+                {
+                    JOptionPane.showMessageDialog(null,aa);
+                }
+            
+                   
+            }
+            
+        });
+        reset();
     }
     //create a reset method to clear all fields of JTextField.
     public void reset()
     {
+       // comboBoxCategory.setSelectedIndex(0);
         textFieldStudentId.setText("");
         textFieldBookName.setText("");
         textFieldIsbn.setText("");
