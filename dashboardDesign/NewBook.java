@@ -38,9 +38,9 @@ public class NewBook extends JFrame //implements ActionListener
     }
     public void gui()
     {
-        String category[]={"Arts","Science","Biographies","Business","Comics","Computer & Tech",
-                           "Cooking","Entertainment","Health & Fitness","History","Literature","Medical",
-                           "Religion","Romance","Self-Help","Sports","Travel","Others"};
+        String category[]={"Select","Arts","Science","Biographies","Business","Comics","Computer & Tech",
+                           "Cooking","Entertainment","Health & Fitness","Literature",
+                           "Religion","Sports","Others"};
        
         String year[]={"1950",  "1951",  "1952",  "1953",  "1954",  "1955",  "1956",
                        "1957","1958","1959","1960","1961","1962","1963","1964","1965",
