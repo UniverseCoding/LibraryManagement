@@ -49,8 +49,8 @@ public class IssueBook extends JFrame{
         Font fonbookName = new Font("Soharab",Font.BOLD, 43);//Create another new font.
    /* //JComboBox.
          String category[]={"Select","Arts","Science","Biographies","Business","Comics","Computer & Tech",
-                           "Cooking","Entertainment","Health & Fitness","History","Literature","Medical",
-                           "Religion","Romance","Self-Help","Sports","Travel","Others"};
+                           "Cooking","Entertainment","Health & Fitness","Literature",
+                           "Religion","Sports","Others"};
         comboBoxCategory = new JComboBox(category);
         comboBoxCategory.setBounds(580,223,250,30);
         add(comboBoxCategory);*/
