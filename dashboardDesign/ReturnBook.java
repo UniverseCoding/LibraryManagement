@@ -11,16 +11,23 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import librarian.Librarian;
 
-public class ReturnBook extends JFrame{
+public class ReturnBook extends JFrame implements ItemListener{
     
     JLabel l,l1,l2,l3,l4,l5;
-    JTextField t1,t2,t3,t4,t5; 
-    JButton b1,b2,b3;
+    JTextField t1,t2,t3,bookName1,bookName2,bookName3,date1,date2,date3; 
+    JButton submitButton,cancelButton,SearchButton;
+    JCheckBox chBox1,chBox2,chBox3;
     
     ReturnBook()
     {
@@ -36,88 +43,69 @@ public class ReturnBook extends JFrame{
     }
     public void gui()
     {
-        
         Font font=new Font("Bold", 1, 17);      
-                
         l=new JLabel("Return Book");
         l1=new JLabel("Student id :");
         l2=new JLabel("ISBN  :");
         l3=new JLabel("Student Name :");
         l4=new JLabel("Book Name :");
         l5=new JLabel("Date of Issue :");
-        
         l.setFont(new Font("Bold", 1,25));
         l1.setFont(font);
         l2.setFont(font);
         l3.setFont(font);
         l4.setFont(font);
         l5.setFont(font);
-       
         t1=new JTextField(30);  
         t2=new JTextField(30);
         t3=new JTextField(10);
-        t4=new JTextField(30);
-        t5=new JTextField(30);
-        
-        
-        b1=new JButton("Submit");
-        b2=new JButton("Cancel");
-        b3 = new JButton("Search");
+        bookName1=new JTextField(30);
+        bookName2=new JTextField(30);
+        bookName3=new JTextField(30);
+        date1=new JTextField(30);
+        date2=new JTextField(30);
+        date3=new JTextField(30);
+        submitButton=new JButton("Submit");
+        cancelButton=new JButton("Cancel");
+        SearchButton = new JButton("Search");
         //set jlabel location
         l.setBounds(580,30,260,35);
         l1.setBounds(415,85,170,30);
-        l2.setBounds(415,95,170,130);
-        l3.setBounds(415,120,170,200);
+        l2.setBounds(415,120,170,200);
+        l3.setBounds(415,95,170,130);
         l4.setBounds(415,150,170,260);
         l5.setBounds(415,180,170,320);
         //set JTextfield location
         t1.setBounds(570, 85,230,30);
         t2.setBounds(570,145,230,30);
-        t3.setBounds(570,205,230,30);
-        t4.setBounds(570,265,230,30);
-        t5.setBounds(570,325,230,30);
+        t3.setBounds(570,145,230,30);
+        bookName1.setBounds(570,265,180,30);
+        bookName2.setBounds(790,265,180,30);
+        bookName3.setBounds(1050,265,180,30);
+        date1.setBounds(570,325,180,30);
+        date2.setBounds(790,325,180,30);
+        date3.setBounds(1050,325,180,30);
         //set jButton location
-        b1.setBounds(590, 400, 85, 30);
-        b2.setBounds(690,400, 85, 30);
-        b3.setBounds(806,84,80,30);
-        b3.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e)
-            {
-                
-                   
-                PreparedStatement pst = null;
-                ResultSet rs =null;
-                
-                try{
-                     Conn conn = new Conn();
-                     String s = t1.getText();
-                     String nm = "Salamaddin sk";
-                     String sql = "select *from issueBook where studentId='"+s+"'";
-                     String sql2 = "select *from newaccount where Name='"+nm+"'";
-                     pst =conn.con.prepareStatement(sql);
-                     rs = pst.executeQuery(sql);
-                     
-                     if(rs.next()){
-                         t2.setText(rs.getString("isbn"));
-                         /*t3.setText(rs.getString("studentName"));
-                         t4.setText(rs.getString("book Name"));*/
-                     }
-                     rs = pst.executeQuery(sql2);
-                     if(rs.next()){
-                         t3.setText(rs.getString("Name"));
-                         /*t3.setText(rs.getString("studentName"));
-                         t4.setText(rs.getString("book Name"));*/
-                     }
-                    }
-                 catch(Exception aa)
-                {
-                    JOptionPane.showMessageDialog(null,aa);
-                }
-            
-                   
-            }
-        });
-        
+        submitButton.setBounds(590, 400, 285, 30);
+        cancelButton.setBounds(890,400, 285, 30);
+        SearchButton.setBounds(806,84,80,30);
+    
+    //JCheckBox for isbn.
+        chBox1 =new JCheckBox();
+        chBox2 =new JCheckBox();
+        chBox3 =new JCheckBox();
+        //set Bounds of CheckBox.
+        chBox1.setBounds(570,205,130,30);
+        chBox2.setBounds(790,205,130,30);
+        chBox3.setBounds(1050,205,130,30);
+        //Add Listener to ComboBox.
+        chBox1.addItemListener(this);
+        chBox2.addItemListener(this);
+        chBox3.addItemListener(this);
+        //Add to the Frame.
+        add(chBox1);
+        add(chBox2);
+        add(chBox3);
         
         //Jlabel added
         add(l);
@@ -126,36 +114,238 @@ public class ReturnBook extends JFrame{
         add(l3);
         add(l4);
         add(l5);
-        
         //JTextfield added
         add(t1);
-        add(t2);
+        //add(t2);
         add(t3);
-        add(t4);
-        add(t5);
+        add(bookName1);
+        add(bookName2);
+        add(bookName3);
+        add(date1);
+        add(date2);
+        add(date3);
         
-        add(b1);
-        add(b2);
-        add(b3);
+        add(submitButton);
+        add(cancelButton);
+        add(SearchButton);
         
-  
+        submitButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent ae)
+            {
+                if(bookName1.getText().equals("") && bookName2.getText().equals("") && bookName3.getText().equals(""))
+                {
+                    JOptionPane.showMessageDialog(null,"Please Select atleast one isbn.");
+                }
+                else
+                {
+                    PreparedStatement pst = null;
+                    ResultSet rs =null;
+                    try
+                    {
+                        Conn conn = new Conn();
+                        String s = t1.getText();
+                        String sql = "INSERT INTO `returnbook`(`studentId`, `StudentName`, `isbn`, `bookName11`, `Date`, `returnDate`) VALUES (?,?,?,?,?,curdate())";
+                        pst =conn.con.prepareStatement(sql);
+                        pst.setString(1,t1.getText());
+                        pst.setString(2,t3.getText());
+                        pst.setString(4,bookName1.getText());
+                        pst.setString(5,date1.getText());
+                        pst.executeUpdate();      
+                        JOptionPane.showMessageDialog(null,"Book returned successfully");
+
+                        reset();
+                    }
+                    catch(Exception aa) 
+                    {
+                        JOptionPane.showMessageDialog(null,aa);
+                    }
+                }
+            }
+        });
         
-        b2.addActionListener(new ActionListener(){
+        SearchButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e)
+            {
+                freshIsbn();
+                PreparedStatement pst = null;
+                ResultSet rs =null;
+                try
+                {
+                    Conn conn = new Conn();
+                    String s = t1.getText();
+                    String sql = "SELECT newstudent.StudentName,issuebook.isbn FROM newstudent JOIN issuebook ON newstudent.studentid=issuebook.studentid where issuebook.studentid='"+s+"'";
+                    pst =conn.con.prepareStatement(sql);
+                    rs = pst.executeQuery(sql);
+                    while(rs.next())
+                   {   
+                       t3.setText(rs.getString("studentName"));
+                       chBox1.setText(rs.getString("isbn"));
+                       while(rs.next())
+                       {
+                           chBox2.setText(rs.getString("isbn"));
+                           while(rs.next()){
+                               chBox3.setText(rs.getString("isbn"));
+                           }
+                       }
+                    }
+                }
+                catch(Exception aa) 
+                {
+                    JOptionPane.showMessageDialog(null,aa);
+                }
+            }
+        });
+        
+        cancelButton.addActionListener(new ActionListener(){
         @Override
         public void actionPerformed(ActionEvent e) {
             Librarian ob = new Librarian();
             setVisible(false);
         }
         });
-           
     }
-    @Override
+    public void freshIsbn(){
+       chBox1.setText("");
+       chBox2.setText("");
+       chBox3.setText("");
+    }
+     public void reset()
+    {
+       t1.setText("");
+       t2.setText("");
+       t3.setText("");
+       bookName1.setText("");
+       bookName2.setText("");
+       bookName3.setText("");
+       date1.setText("");
+       date2.setText("");
+       date3.setText("");
+       
+
+    }
     public void paint(Graphics g) {
         super.paint(g);     
         Graphics2D g1 = (Graphics2D) g;
         g1.setPaint(new Color(0, 0, 0));
         g1.setStroke(new BasicStroke(2.0f));
-        g1.drawRoundRect(400, 50, 500,495, 50, 50);  //50 and 50 is round size & x and y is position of rectangle
-     
+        g1.drawRoundRect(400, 50, 840,495, 50, 50);  //50 and 50 is round size & x and y is position of rectangle
+     }
+
+    @Override
+    public void itemStateChanged(ItemEvent ie) {
+        if(chBox1.isSelected()){
+           
+             PreparedStatement pst = null;
+             ResultSet rs =null;
+                try{
+                     if(chBox1.getText().equals(""))
+                    {
+                        JOptionPane.showMessageDialog(null,"You Have no Isbn.");
+                    }
+                    else
+                    {
+                         Conn conn = new Conn();
+                         String s = chBox1.getText();
+                         String sql = "select *from issuebook where isbn='"+s+"'";
+                         pst =conn.con.prepareStatement(sql);
+                         rs = pst.executeQuery(sql);
+                         while(rs.next())
+                         {
+                             bookName1.setText(rs.getString("bookName"));
+                             date1.setText(rs.getString("date"));
+                         }
+                    }
+                }
+                catch(Exception aa)
+                {
+                    JOptionPane.showMessageDialog(null,aa);
+                }
+                
+        }
+        else
+        {
+            bookName1.setText("");
+            date1.setText("");
+        }
+        if(chBox2.isSelected()){
+            PreparedStatement pst = null;
+            ResultSet rs =null;
+            try
+            {
+                if(chBox2.getText().equals("") && chBox1.getText().equals(""))
+                {
+                    JOptionPane.showMessageDialog(null,"You Have no Isbn.");
+                     
+                }
+                else if(chBox2.getText().equals("") )
+                {
+                    JOptionPane.showMessageDialog(null,"You Have Only 1 Isbn.");
+                }
+                else
+                {
+                     Conn conn = new Conn();
+                     String s = chBox2.getText();
+                     String sql = "select *from issuebook where isbn='"+s+"'";
+                     pst =conn.con.prepareStatement(sql);
+                     rs = pst.executeQuery(sql);
+                     while(rs.next()){
+                         bookName2.setText(rs.getString("bookName"));
+                         date2.setText(rs.getString("date"));
+                    }
+                }
+            }
+                 catch(Exception aa)
+                {
+                    JOptionPane.showMessageDialog(null,aa);
+                }
+        }
+        else
+        {
+            bookName2.setText("");
+            date2.setText("");
+        }
+        if(chBox3.isSelected()){
+            PreparedStatement pst = null;
+            ResultSet rs =null;
+            try
+            {
+                if(chBox3.getText().equals("") && chBox2.getText().equals("") && chBox1.getText().equals(""))
+                {
+                    JOptionPane.showMessageDialog(null,"You Have no Isbn.");
+                    
+                }
+                else if(chBox3.getText().equals("") && chBox2.getText().equals("") )
+                {
+                    JOptionPane.showMessageDialog(null,"You Have Only 1 Isbn.");
+                }
+                else if(chBox3.getText().equals(""))
+                {
+                     JOptionPane.showMessageDialog(null,"You Have Only 2 Isbn.");
+
+                }
+                else
+                {
+                    Conn conn = new Conn();
+                    String s = chBox3.getText();
+                    String sql = "select *from issuebook where isbn='"+s+"'";
+                    pst =conn.con.prepareStatement(sql);
+                    rs = pst.executeQuery(sql);
+                    while(rs.next())
+                    {
+                        bookName3.setText(rs.getString("bookName"));
+                        date3.setText(rs.getString("date"));
+                    }
+                }
+            }
+            catch(Exception aa)
+           {
+               JOptionPane.showMessageDialog(null,aa);
+           }
+        }
+        else
+        {
+            bookName3.setText("");
+            date3.setText("");
+        }
     }
 }
