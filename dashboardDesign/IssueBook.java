@@ -1,4 +1,3 @@
-
 package dashboardDesign;
 
 import java.awt.BasicStroke;
@@ -112,6 +111,7 @@ public class IssueBook extends JFrame{
         textFieldStudentId.setFont(fnt);
         textFieldBookName.setFont(fnt);
         textFieldIsbn.setFont(fnt);
+        textFieldStudentName.setFont(fnt);
        
         //Buttons.
         //create Buttons and set their Name.
@@ -142,12 +142,14 @@ public class IssueBook extends JFrame{
                     try{
                         //create the object of Connection class
                         Conn conn = new Conn();                       
-                        String sql = "INSERT INTO issueBook(`studentId`, `bookName`, `isbn`, `date`, `returnDate`) VALUES (?,?,?,curdate(),DATE_ADD(curdate(), INTERVAL 3 month))";
+                        String sql = "INSERT INTO issueBook(`studentId`, `studentName`,`category`,`bookName`, `isbn`, `date`, `returnDate`) VALUES (?,?,?,?,?,curdate(),DATE_ADD(curdate(), INTERVAL 3 month))";
                        //sql queries statement for insert data into database
-                        pst =conn.con.prepareStatement(sql);
+                        pst =conn.c.prepareStatement(sql);
                         pst.setString(1,textFieldStudentId.getText());
-                        pst.setString(2,textFieldBookName.getText());
-                        pst.setString(3,textFieldIsbn.getText());
+                        pst.setString(2,textFieldStudentName.getText());
+                        pst.setString(3,comboBoxCategory.getSelectedItem().toString());
+                        pst.setString(4,textFieldBookName.getText());
+                        pst.setString(5,textFieldIsbn.getText());
                         
                         pst.executeUpdate();
                         JOptionPane.showMessageDialog(null,"Issue Book Successfully");
@@ -173,21 +175,46 @@ public class IssueBook extends JFrame{
         add(submitButton);
         add(cancelButton);
         add(searchButton);
+        //Action Listener for search button.
         searchButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e)
-            {PreparedStatement pst = null;
+            {
+                PreparedStatement pst = null;
                 ResultSet rs =null;
+                // set preparedStatement and result object null for second query
+                PreparedStatement st = null;
+                ResultSet r =null;
                 try{
+                    int i = 0;
                      Conn conn = new Conn();
+                     //create  second connection 
+                     Conn conn2 = new Conn();
                      String s = textFieldStudentId.getText();
-                     String sql = "select *from issueBook where studentId='"+s+"'";
-                     pst =conn.con.prepareStatement(sql);
+                     String sql = "select *from newStudent where student_id='"+s+"'";//first query
+                     String sql2 = "select *from issuebook where studentId='"+s+"'"; //second query
+                     pst =conn.c.prepareStatement(sql);
                      rs = pst.executeQuery(sql);
-                     if(rs.next()){
-                         textFieldStudentName.setText(rs.getString("studentname"));
-                         /*t3.setText(rs.getString("studentName"));
-                         t4.setText(rs.getString("book Name"));*/
-                    }
+                     
+                     st =conn2.c.prepareStatement(sql2);
+                     r = st.executeQuery(sql2);
+                     
+                     while(r.next()){
+                           i++;                 
+                        }
+                     if(i>=3){
+                                reset();
+                                JOptionPane.showMessageDialog(null,"you cannot take more than three books.");
+                            }
+                     else{
+                           if(rs.next()){
+                              textFieldStudentName.setText(rs.getString("student_name"));              
+                                 }
+                        else
+                           {   
+                               reset();
+                               JOptionPane.showMessageDialog(null,"This student id is not registered.");
+                           }
+                         }
                 }
                  catch(Exception aa)
                 {
@@ -207,7 +234,7 @@ public class IssueBook extends JFrame{
         textFieldStudentId.setText("");
         textFieldBookName.setText("");
         textFieldIsbn.setText("");
-       
+        textFieldStudentName.setText("");
     }
     
     @Override
