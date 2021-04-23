@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.List;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -13,10 +14,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
@@ -24,10 +26,11 @@ import librarian.Librarian;
 
 public class ReturnBook extends JFrame implements ItemListener{
     
-    JLabel l,l1,l2,l3,l4,l5;
-    JTextField t1,t2,t3,bookName1,bookName2,bookName3,date1,date2,date3; 
+    JLabel l,l1,l2,l3,l4,l5,studentIdMsg;
+    JTextField t1,t3,bookName1,bookName2,bookName3,date1,date2,date3; 
     JButton submitButton,cancelButton,SearchButton;
     JCheckBox chBox1,chBox2,chBox3;
+  
     
     ReturnBook()
     {
@@ -43,22 +46,26 @@ public class ReturnBook extends JFrame implements ItemListener{
     }
     public void gui()
     {
-        Font font=new Font("Bold", 1, 17);      
+        Font font=new Font("Bold", 1, 17);
+        Font textFont = new Font("Bold",2,20);
         l=new JLabel("Return Book");
         l1=new JLabel("Student id :");
         l2=new JLabel("ISBN  :");
         l3=new JLabel("Student Name :");
         l4=new JLabel("Book Name :");
         l5=new JLabel("Date of Issue :");
+        studentIdMsg =new JLabel();
+        studentIdMsg.setForeground(Color.RED);
         l.setFont(new Font("Bold", 1,25));
         l1.setFont(font);
         l2.setFont(font);
         l3.setFont(font);
         l4.setFont(font);
         l5.setFont(font);
-        t1=new JTextField(30);  
-        t2=new JTextField(30);
+        t1=new JTextField(30); 
         t3=new JTextField(10);
+        t1.setFont(textFont);
+        t3.setFont(textFont);
         bookName1=new JTextField(30);
         bookName2=new JTextField(30);
         bookName3=new JTextField(30);
@@ -75,13 +82,21 @@ public class ReturnBook extends JFrame implements ItemListener{
         l3.setBounds(415,95,170,130);
         l4.setBounds(415,150,170,260);
         l5.setBounds(415,180,170,320);
+        studentIdMsg.setBounds(585,105,230,30);
         //set JTextfield location
         t1.setBounds(570, 85,230,30);
-        t2.setBounds(570,145,230,30);
         t3.setBounds(570,145,230,30);
         bookName1.setBounds(570,265,180,30);
         bookName2.setBounds(790,265,180,30);
         bookName3.setBounds(1050,265,180,30);
+        //Make the Text Fields not-Editable.
+        t3.setEditable(false);
+        bookName1.setEditable(false);
+        bookName2.setEditable(false);
+        bookName3.setEditable(false);
+        date1.setEditable(false);
+        date2.setEditable(false);
+        date3.setEditable(false);
         date1.setBounds(570,325,180,30);
         date2.setBounds(790,325,180,30);
         date3.setBounds(1050,325,180,30);
@@ -89,6 +104,10 @@ public class ReturnBook extends JFrame implements ItemListener{
         submitButton.setBounds(590, 400, 285, 30);
         cancelButton.setBounds(890,400, 285, 30);
         SearchButton.setBounds(806,84,80,30);
+        submitButton.setFocusPainted(false);
+        cancelButton.setFocusPainted(false);
+        SearchButton.setFocusPainted(false);
+        
     
     //JCheckBox for isbn.
         chBox1 =new JCheckBox();
@@ -114,9 +133,9 @@ public class ReturnBook extends JFrame implements ItemListener{
         add(l3);
         add(l4);
         add(l5);
+        add(studentIdMsg);
         //JTextfield added
         add(t1);
-        //add(t2);
         add(t3);
         add(bookName1);
         add(bookName2);
@@ -144,16 +163,52 @@ public class ReturnBook extends JFrame implements ItemListener{
                     {
                         Conn conn = new Conn();
                         String s = t1.getText();
-                        String sql = "INSERT INTO `returnbook`(`studentId`, `StudentName`, `isbn`, `bookName11`, `Date`, `returnDate`) VALUES (?,?,?,?,?,curdate())";
+                        String sql = "INSERT INTO `returnbook`(`studentId`, `StudentName`, `isbn`, `bookName`, `Date`, `returnDate`) VALUES (?,?,?,?,?,curdate())";
                         pst =conn.con.prepareStatement(sql);
-                        pst.setString(1,t1.getText());
-                        pst.setString(2,t3.getText());
-                        pst.setString(4,bookName1.getText());
-                        pst.setString(5,date1.getText());
-                        pst.executeUpdate();      
+                        if(chBox1.isSelected())
+                        {
+                            String isbn=chBox1.getText();
+                            pst.setString(1,t1.getText());
+                            pst.setString(2,t3.getText());
+                            pst.setString(3,isbn);
+                            pst.setString(4,bookName1.getText());
+                            pst.setString(5,date1.getText());
+                            pst.executeUpdate();
+                            String sqlD = "DELETE FROM `issuebook` WHERE isbn='"+isbn+"'";
+                            pst.executeUpdate(sqlD);
+                            
+                        }
+                        if(chBox2.isSelected())
+                        {
+                           
+                            String isbn=chBox2.getText();
+                            pst.setString(1,t1.getText());
+                            pst.setString(2,t3.getText());
+                            pst.setString(3,isbn);
+                            pst.setString(4,bookName2.getText());
+                            pst.setString(5,date2.getText());
+                            pst.executeUpdate();
+                            String sqlD = "DELETE FROM `issuebook` WHERE isbn='"+isbn+"'";
+                            pst.executeUpdate(sqlD);
+                        }
+                        if(chBox3.isSelected())
+                        {
+                           
+                            String isbn=chBox3.getText();
+                            pst.setString(1,t1.getText());
+                            pst.setString(2,t3.getText());
+                            pst.setString(3,isbn);
+                            pst.setString(4,bookName3.getText());
+                            pst.setString(5,date3.getText());
+                            pst.executeUpdate();
+                            String sqlD = "DELETE FROM `issuebook` WHERE isbn='"+isbn+"'";
+                            pst.executeUpdate(sqlD);
+                        }
+                        
                         JOptionPane.showMessageDialog(null,"Book returned successfully");
 
                         reset();
+                        freshIsbn();
                     }
                     catch(Exception aa) 
                     {
@@ -166,32 +221,49 @@ public class ReturnBook extends JFrame implements ItemListener{
         SearchButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e)
             {
+                ArrayList<String> sId = new ArrayList<String>();
+                String text = t1.getText();
+                sId.add(text);
                 freshIsbn();
-                PreparedStatement pst = null;
-                ResultSet rs =null;
-                try
+                String regex = "^[a-zA-Z0-9]+$";
+                Pattern pattern = Pattern.compile(regex);
+                for (Object sID : sId)
                 {
-                    Conn conn = new Conn();
-                    String s = t1.getText();
-                    String sql = "SELECT newstudent.StudentName,issuebook.isbn FROM newstudent JOIN issuebook ON newstudent.studentid=issuebook.studentid where issuebook.studentid='"+s+"'";
-                    pst =conn.con.prepareStatement(sql);
-                    rs = pst.executeQuery(sql);
-                    while(rs.next())
-                   {   
-                       t3.setText(rs.getString("studentName"));
-                       chBox1.setText(rs.getString("isbn"));
-                       while(rs.next())
-                       {
-                           chBox2.setText(rs.getString("isbn"));
-                           while(rs.next()){
-                               chBox3.setText(rs.getString("isbn"));
-                           }
-                       }
+                    Matcher matcher = pattern.matcher((CharSequence) sID);
+                    if(matcher.matches()==true)
+                    {
+                      PreparedStatement pst = null;
+                      ResultSet rs =null;
+                      try
+                        {
+                            Conn conn = new Conn();
+                            String s = t1.getText();
+                            String sql = "SELECT newstudent.StudentName,issuebook.isbn FROM newstudent JOIN issuebook ON newstudent.studentid=issuebook.studentid where issuebook.studentid='"+s+"'";
+                            pst =conn.con.prepareStatement(sql);
+                            rs = pst.executeQuery(sql);
+                            while(rs.next())
+                           {  
+                               t3.setText(rs.getString("studentName"));
+                               chBox1.setText(rs.getString("isbn"));
+                               while(rs.next())
+                               {
+                                   chBox2.setText(rs.getString("isbn"));
+                                   while(rs.next())
+                                   {
+                                       chBox3.setText(rs.getString("isbn"));
+                                   }
+                               }
+                            }
+                        }
+                      catch(Exception aa) 
+                      {
+                          JOptionPane.showMessageDialog(null,aa);
+                      }
                     }
-                }
-                catch(Exception aa) 
-                {
-                    JOptionPane.showMessageDialog(null,aa);
+                    else
+                    {
+                      JOptionPane.showMessageDialog(null,"Invalid");
+                    }
                 }
             }
         });
@@ -204,7 +276,9 @@ public class ReturnBook extends JFrame implements ItemListener{
         }
         });
     }
-    public void freshIsbn(){
+    //To free the CheckBoxes.
+    public void freshIsbn()
+    {
        chBox1.setText("");
        chBox2.setText("");
        chBox3.setText("");
@@ -212,7 +286,6 @@ public class ReturnBook extends JFrame implements ItemListener{
      public void reset()
     {
        t1.setText("");
-       t2.setText("");
        t3.setText("");
        bookName1.setText("");
        bookName2.setText("");
@@ -220,8 +293,9 @@ public class ReturnBook extends JFrame implements ItemListener{
        date1.setText("");
        date2.setText("");
        date3.setText("");
-       
-
+       chBox1.setSelected(false);
+       chBox2.setSelected(false);
+       chBox3.setSelected(false);
     }
     public void paint(Graphics g) {
         super.paint(g);     
@@ -231,7 +305,7 @@ public class ReturnBook extends JFrame implements ItemListener{
         g1.drawRoundRect(400, 50, 840,495, 50, 50);  //50 and 50 is round size & x and y is position of rectangle
      }
 
-    @Override
+  //Create ItemListener for checkBox work.
     public void itemStateChanged(ItemEvent ie) {
         if(chBox1.isSelected()){
            
