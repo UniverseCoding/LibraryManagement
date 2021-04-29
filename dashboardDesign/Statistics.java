@@ -96,44 +96,43 @@ public class Statistics extends JFrame{
             {
                 
                 case 0:
-                    n=(int)(100*(sum/arts));
+                    n=(int)((100*arts)/sum);
                     x=110;
                     break;
                 case 1:
-                    n=(int) (100*(sum/science));
+                    n=(int) ((100*science)/sum);
                     x=210;
                     break;
                 case 2:
-                    n=(int) (100*(sum/biographies));
+                    n=(int) ((100*biographies)/sum);
                     x=322;
                     break;
                 case 3:
-                    n=(int) (sum/(business*100));             //***
+                    n=(int) ((100*business)/sum);             
                     x=445;
-                    System.out.println(n);
                     break;
                 case 4:
-                    n=(int) (100*(sum/computerTech));
+                    n=(int) ((100*computerTech)/sum);
                     x=590;
                     break;
                 case 5:
-                    n=(int) (100*(sum/entertainment));
+                    n=(int) ((100*entertainment)/sum);
                     x=757;
                     break;
                 case 6:
-                    n=(int) (100*(sum/healthFit));
+                    n=(int) ((100*healthFit)/sum);
                     x=910;
                     break;
                 case 7:
-                    n=(int) (100*(sum/religion));
+                    n=(int) ((100*religion)/sum);
                     x=1040;
                     break;
                 case 8:
-                    n=(int) (100*(sum/sports));
+                    n=(int) ((100*sports)/sum);
                     x=1147;
                     break;
                 default:
-                    n=(int) (100*(sum/others));
+                    n=(int) ((100*others)/sum);
                     x=1256;
                     break;
             } 
