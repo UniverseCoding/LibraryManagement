@@ -2,7 +2,7 @@ package dashboardDesign;
 import java.sql.*;
 public class Conn {
     
-      Connection c;
+      public Connection c;
       Statement s;
       String url = "jdbc:mysql://127.0.0.1/librarian";
       String username = "root";
