@@ -1,11 +1,14 @@
-
 package dashboardDesign;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 public class Statistics extends JFrame{
 
@@ -14,6 +17,7 @@ public class Statistics extends JFrame{
     
     Statistics()
     {
+        
         setTitle("Library Management System");
         setSize(1500,700);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -21,10 +25,12 @@ public class Statistics extends JFrame{
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
         setLayout(null);
- 
+        
     }
+    
     public void gui()
     {
+       // catagory_value(50,60,100,60,70,800,20,55,88,10);
         l=new JLabel("100%");
         l1=new JLabel("80%");
         l2=new JLabel("60%");
@@ -47,11 +53,11 @@ public class Statistics extends JFrame{
             "Cooking","Entertainment","Health & Fitness","Literature",
             "Religion","Sports","Others*/
 
-        l.setBounds(65,40,170,50);
-        l1.setBounds(70,40,170,240);
-        l2.setBounds(70,40,170,440);
-        l3.setBounds(70,40,170,640);
-        l4.setBounds(70,40,170,840);
+        l.setBounds(60,40,170,50);
+        l1.setBounds(65,40,170,240);
+        l2.setBounds(65,40,170,440);
+        l3.setBounds(65,40,170,640);
+        l4.setBounds(65,40,170,840);
         l5.setBounds(70,40,170,1050);
         
         l6.setBounds(100,220,170,715);
@@ -85,6 +91,137 @@ public class Statistics extends JFrame{
         add(l15);
         
     }
+    void data() throws SQLException
+    {
+        int Arts_c = 0,Science_c=0,Biographies_c=0,Business_c=0,Entertainment_c=0,Computer_c=0,Religion_c=0,Sports_c=0,Health_c=0,Others_c=0 ;
+        // set  preparedStatement and resultset for 10 difference query
+        PreparedStatement st = null;
+        ResultSet rs =null;
+        
+        PreparedStatement st2 = null;
+        ResultSet rs2 =null;
+        
+        PreparedStatement st3 = null;
+        ResultSet rs3 =null;
+        
+        PreparedStatement st4 = null;
+        ResultSet rs4 =null;
+        
+        PreparedStatement st5 = null;
+        ResultSet rs5 =null;
+        
+        PreparedStatement st6 = null;
+        ResultSet rs6 =null;
+        
+        PreparedStatement st7 = null;
+        ResultSet rs7 =null;
+        
+        PreparedStatement st8 = null;
+        ResultSet rs8 =null;
+        
+        PreparedStatement st9 = null;
+        ResultSet rs9 =null;
+        PreparedStatement st10 = null;
+        ResultSet rs10 =null;
+      try{  
+            Conn con = new Conn();               
+            //Conn con2 = new Conn();
+            String sql = "select count(*) from issuebook where category='Arts'";
+            String sql2 = "select count(*) from issuebook where category='Science'";
+            String sql3 = "select count(*) from issuebook where category='Biographies'";
+            String sql4 = "select count(*) from issuebook where category='Business'";
+            String sql5 = "select count(*) from issuebook where category='Computer & Tech'";
+            String sql6 = "select count(*) from issuebook where category='Entertainment'";
+            String sql7 = "select count(*) from issuebook where category='Health & Fitness'";
+            String sql8 = "select count(*) from issuebook where category='Religion'";
+            String sql9 = "select count(*) from issuebook where category='Sports'";
+            String sql10 = "select count(*) from issuebook where category='Others'";
+            
+            st = con.c.prepareStatement(sql);
+            rs = st.executeQuery();
+             
+            st2= con.c.prepareStatement(sql2);            
+            rs2= st2.executeQuery();
+            
+            st3= con.c.prepareStatement(sql3);            
+            rs3= st3.executeQuery();
+            
+            st4= con.c.prepareStatement(sql4);            
+            rs4= st4.executeQuery();
+            
+            st5= con.c.prepareStatement(sql5);            
+            rs5= st5.executeQuery();
+            
+            st6= con.c.prepareStatement(sql6);            
+            rs6= st6.executeQuery();
+            
+            st7= con.c.prepareStatement(sql7);            
+            rs7= st7.executeQuery();
+            
+            st8= con.c.prepareStatement(sql8);            
+            rs8= st8.executeQuery();
+            
+            st9= con.c.prepareStatement(sql9);            
+            rs9= st9.executeQuery();
+            
+            st10= con.c.prepareStatement(sql10);            
+            rs10= st10.executeQuery();
+            
+            
+            
+            if(rs.next()){
+            Arts_c = rs.getInt(1); 
+            //System.out.print(Arts_c);
+            }
+            
+             if(rs2.next()){
+             Science_c = rs2.getInt(1);         
+            }
+             
+              if(rs3.next()){
+            Biographies_c = rs3.getInt(1);        
+            }
+              
+                if(rs4.next()){
+            Business_c = rs4.getInt(1);           
+            }
+                
+             if(rs5.next()){
+             Computer_c = rs5.getInt(1);
+             System.out.print(Entertainment_c);
+            }
+             
+              if(rs6.next()){
+            Entertainment_c= rs6.getInt(1);  
+            
+            }
+              
+                 if(rs7.next()){
+             Health_c = rs7.getInt(1); 
+             
+            }
+                 
+              if(rs8.next()){
+            Religion_c = rs8.getInt(1);        
+            }
+              
+                if(rs9.next()){
+            Sports_c = rs9.getInt(1);           
+            }
+                
+             if(rs10.next()){
+             Others_c = rs10.getInt(1);         
+            }
+             
+           
+            
+        }catch(Exception ea)
+            {
+                JOptionPane.showMessageDialog(null,ea);              
+            }
+        
+        catagory_value(Arts_c,Science_c,Biographies_c,Business_c,Computer_c,Entertainment_c,Health_c,Religion_c,Sports_c,Others_c );
+    }
     void catagory_value(int arts,int science,int biographies,int business,int computerTech,int entertainment,int healthFit,int religion,
         int sports,int others)
     {
@@ -96,7 +233,7 @@ public class Statistics extends JFrame{
             {
                 
                 case 0:
-                    n=(int)((100*arts)/sum);
+                    n=(int)((100*arts)/sum);                
                     x=110;
                     break;
                 case 1:
@@ -117,6 +254,7 @@ public class Statistics extends JFrame{
                     break;
                 case 5:
                     n=(int) ((100*entertainment)/sum);
+          
                     x=757;
                     break;
                 case 6:
