@@ -2,13 +2,17 @@ package dashboardDesign;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Line2D;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import librarian.Librarian;
 
 public class Statistics extends JFrame{
 
@@ -30,7 +34,8 @@ public class Statistics extends JFrame{
     
     public void gui()
     {
-       // catagory_value(50,60,100,60,70,800,20,55,88,10);
+      
+        JButton j = new JButton();
         l=new JLabel("100%");
         l1=new JLabel("80%");
         l2=new JLabel("60%");
@@ -49,10 +54,8 @@ public class Statistics extends JFrame{
         l14=new JLabel("Sports");
         l15=new JLabel("Others");
         
-        /*"Arts","Science","Biographies","Business","Comics","Computer & Tech",
-            "Cooking","Entertainment","Health & Fitness","Literature",
-            "Religion","Sports","Others*/
-
+       
+        j.setBounds(10,10,35,20);
         l.setBounds(60,40,170,50);
         l1.setBounds(65,40,170,240);
         l2.setBounds(65,40,170,440);
@@ -71,7 +74,7 @@ public class Statistics extends JFrame{
         l14.setBounds(1130,220,170,715);
         l15.setBounds(1240,220,170,715);
 
-       
+        add(j);
         add(l);
         add(l1);
         add(l2);
@@ -90,11 +93,21 @@ public class Statistics extends JFrame{
         add(l14);
         add(l15);
         
+          j.addActionListener(new ActionListener(){
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            Librarian ob = new Librarian();
+            setVisible(false);
+            
+        } 
+       }); 
     }
-    void data() throws SQLException
+    
+    void data() //throws SQLException
     {
         int Arts_c = 0,Science_c=0,Biographies_c=0,Business_c=0,Entertainment_c=0,Computer_c=0,Religion_c=0,Sports_c=0,Health_c=0,Others_c=0 ;
         // set  preparedStatement and resultset for 10 difference query
+        
         PreparedStatement st = null;
         ResultSet rs =null;
         
@@ -136,7 +149,7 @@ public class Statistics extends JFrame{
             String sql8 = "select count(*) from issuebook where category='Religion'";
             String sql9 = "select count(*) from issuebook where category='Sports'";
             String sql10 = "select count(*) from issuebook where category='Others'";
-            
+           
             st = con.c.prepareStatement(sql);
             rs = st.executeQuery();
              
@@ -188,7 +201,7 @@ public class Statistics extends JFrame{
                 
              if(rs5.next()){
              Computer_c = rs5.getInt(1);
-             System.out.print(Entertainment_c);
+             
             }
              
               if(rs6.next()){
@@ -213,19 +226,22 @@ public class Statistics extends JFrame{
              Others_c = rs10.getInt(1);         
             }
              
-           
+          
             
         }catch(Exception ea)
             {
                 JOptionPane.showMessageDialog(null,ea);              
             }
-        
-        catagory_value(Arts_c,Science_c,Biographies_c,Business_c,Computer_c,Entertainment_c,Health_c,Religion_c,Sports_c,Others_c );
+      catagory_value(Arts_c,Science_c,Biographies_c,Business_c,Computer_c,Entertainment_c,Health_c,Religion_c,Sports_c,Others_c);
+      
     }
-    void catagory_value(int arts,int science,int biographies,int business,int computerTech,int entertainment,int healthFit,int religion,
-        int sports,int others)
+    
+    
+    void catagory_value(int arts,int science,int biographies,int business,int computerTech,int entertainment,int healthFit,int religion,int sports,int others)
+            
     {
         long sum= arts+science+biographies+business+computerTech+entertainment+healthFit+religion+sports+others;
+
         for(int i=0;i<10;i++)
         {
             int x=0,n=0;
