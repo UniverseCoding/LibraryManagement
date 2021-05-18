@@ -1,205 +1,176 @@
-
 package dashboardDesign;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import javax.swing.*;
+import java.awt.Container;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.Driver;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JCheckBox;
-import javax.swing.JTextField;
 import librarian.Librarian;
 
-
-public class NewAccount extends JFrame 
+public class NewStudent extends JFrame 
 {
-    JLabel label1,label2,label3;
-    JTextField textField1;
-    JPasswordField passwordField1,passwordField2;
-    JButton submitButton,ClearButton,backButton;
-    JCheckBox  JCheckBox1,JCheckBox2;
-    
-    Connection con =null;
-    PreparedStatement pst =null;
-    
-    public NewAccount()
+    private final Container c;
+    private Font f, font;
+    private JButton b1, b2;
+    NewStudent()
     {
         setTitle("Library Management System");
-        setSize(1500,700);
-        getContentPane().setBackground(new Color(190, 245, 104));
+        setBounds(500,220,350,400);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
         setLayout(null);
+        c = this.getContentPane();
+        c.setBackground(Color.getHSBColor(142,82,82));
+     
         
     }
-    public void gui ()
+    public void gui()
     {
-       //Label Section.
-       label1 = new JLabel("Name: "); // create objects for Labels and given Names.
-       label2 = new JLabel("Password: ");
-       label3 = new JLabel("Re-Password: ");
-       label1.setBounds(572, 175, 120, 25); // set locations and size of labels.
-       label2.setBounds(572, 245, 180, 25);
-       label3.setBounds(572, 315, 230, 25);
-       label1.setForeground(Color.BLUE); //set  label's Text Color.
-       label2.setForeground(Color.BLUE);
-       label3.setForeground(Color.BLUE);
-       label1.setFont(new Font("Soharab", Font.PLAIN, 34)); //create new Font for Label.
-       label2.setFont(new Font("Soharab", Font.PLAIN, 34));
-       label3.setFont(new Font("Soharab", Font.PLAIN, 30));
-       add(label1); // add to JFrame.
-       add(label2);
-       add(label3);
-       
-       //TextField and PasswordField Section.
-        // create  objects for text field and password field.
-       passwordField1 = new JPasswordField(); 
-       textField1 = new JTextField(); 
-       passwordField2 = new JPasswordField();
-       // set Font and font Size.
-       textField1.setFont(new Font("Soharab", Font.BOLD, 24)); 
-       passwordField1.setFont(new Font("Soharab", Font.ROMAN_BASELINE, 24));
-       passwordField1.setEchoChar('*');
-       passwordField2.setEchoChar('*');
-       passwordField2.setFont(new Font("Soharab", Font.ROMAN_BASELINE, 24));
-        // set Location and Size.
-       textField1.setBounds(772, 175, 460, 25);
-       passwordField1.setBounds(772, 245, 460, 25);
-       passwordField2.setBounds(772, 315, 460, 25);
-       //Create a color for Forground.
-       Color color2 = new Color(57,55,197);
-       textField1.setForeground(color2);
-       passwordField1.setForeground(color2);
-       passwordField2.setForeground(color2);
-       // add to JFrame.
-       add(textField1);
-       add(passwordField1);
-       add(passwordField2);
-       
-    //Buttons Section.
-        // create buttons object and gave a name.
-       submitButton =new JButton("Submit");
-       ClearButton = new JButton("Clear All");
-       backButton = new JButton();
-       // set location and size of Buttons.
-       submitButton.setBounds(772,415,210,35); 
-       ClearButton.setBounds(1022,415,210,35);
-       backButton.setBounds(1165,131,65,25);
-        // add Buttons to Frame.
-       add(submitButton);
-       add(ClearButton);
-       add(backButton);
-       submitButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                // Insert code here
-                if(textField1.getText().isEmpty() || passwordField1.getText().isEmpty() || passwordField2.getText().isEmpty()){
-                     JOptionPane.showMessageDialog(null,"Please Fill up All field");
-                }
-                else
-                    try{
-                        if(passwordField1.getText().equals(passwordField2.getText())){
-                        String submit = "INSERT INTO `newaccount`(`Name`, `Password`, `RePassword`) VALUES (?,?,?)";
-                        con = DriverManager.getConnection("jdbc:mysql://localhost:3307/librarian","root","");
-                        pst = con.prepareStatement(submit);
-                        pst.setString(1,textField1.getText());
-                        pst.setString(2,passwordField1.getText());
-                        pst.setString(3,passwordField2.getText());
-                        pst.executeUpdate();      
-                        JOptionPane.showMessageDialog(null,"New Account Created successfully");
-                        reset();
-                        }
-                        else
-                            JOptionPane.showMessageDialog(null,"Password and re-password is not Matched");
-                    }
-                    catch(Exception ae){
-                        JOptionPane.showMessageDialog(null, e);
-                    }
-               
-            }
+        
+        //creat JTextField
+        JTextField j1 = new JTextField();
+        JTextField j2 = new JTextField();
+        JTextField j3 = new JTextField();
+        JTextField j4 = new JTextField();
+        JTextField j5= new  JTextField();
+        JTextField j6= new  JTextField();
+        JTextField j7 = new JTextField();
+        
+        // set JTextField location
+        j1.setBounds(600,100,240,30);
+        j2.setBounds(600,160,240,30);
+        j3.setBounds(600,220,240,30);
+        j4.setBounds(600,280,240,30);
+        j5.setBounds(600,340,240,30);
+        j6.setBounds(600,400,240,30);
+        j7.setBounds(600,520,240,50);
+        
+        // Added JTextField
+        add(j1);
+        add(j2);
+        add(j3);
+        add(j4);
+        add(j5);
+        add(j6);
+        add(j7);
+        
+        //Create button1 
+        b1=new JButton("Submit");
+        b1.setBounds(605,605,90,35);
+        b1.setFont(font);
+        b1.setForeground(Color.BLACK);
+        b1.setBackground(Color.CYAN);
+        add(b1);
+        
+         //Create button2
+        b2=new JButton("Cancel");
+        b2.setBounds(740,605,90,35);
+        b2.setFont(font);
+        b2.setForeground(Color.BLACK);
+        b2.setBackground(Color.CYAN);
+        add(b2);
+        //create JLabel  
+        JLabel l=new JLabel("Student Register");
+        l.setFont(new Font("Bold", 1,25));
+        l.setBounds(610,30,250,30);
+        add(l);
+        
+        //Create jComboBox
+        String year[] = {"1st year","2nd year", "3rd year", "4th year"};
+        JComboBox cb = new JComboBox(year);
+        cb.setBounds(600,460,240,30);
+        add(cb);
+        //Action Listener for cancel button.
+         b2.addActionListener(new ActionListener(){
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            Librarian ob = new Librarian();
+            setVisible(false);
+        }
         });
-       ClearButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                // Insert code here
-               reset();
-            }
-        });
-       backButton.setFocusable(true);
-       backButton.setContentAreaFilled(false);
-       Image img = Toolkit.getDefaultToolkit().getImage("C:/Users/SOHARAB/Desktop/icon.png");
-       Image newimg = img.getScaledInstance(65, 25,1);
-       ImageIcon icon = new ImageIcon(newimg);
-       backButton.setIcon(icon);
-       backButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                // Insert code here
-              Librarian obj = new Librarian();
-            }
-        });
-       //JCheckBox Section to visible Password.
-       JCheckBox1 = new JCheckBox("Show");
-       JCheckBox1.setBounds(1158, 275, 73, 25);
-       add(JCheckBox1);
-       JCheckBox1.addActionListener(new ActionListener(){
-           public void actionPerformed(ActionEvent e){
-               if(JCheckBox1.isSelected()){
-                   passwordField1.setEchoChar((char)0);
-               }
-               else
-                   passwordField1.setEchoChar('*');
-           }
-       }
-       );
-       
-       JCheckBox2 = new JCheckBox("Show");
-       JCheckBox2.setBounds(1158, 345, 73, 25);
-       add(JCheckBox2);
-       JCheckBox2.addActionListener(new ActionListener(){
-           public void actionPerformed(ActionEvent e){
-               if(JCheckBox2.isSelected()){
-                   passwordField2.setEchoChar((char)0);
-               }
-               else
-                   passwordField2.setEchoChar('*');
-           }
-       }
-       );
-    }
+      //Action Listener for submit button.
+      b1.addActionListener(new ActionListener(){
+        @Override
+        public void actionPerformed(ActionEvent e) {
+         
+         
+           String year = cb.getSelectedItem().toString();
+           String student_name=j1.getText();
+           String student_id=j2.getText();
+           String email_id=j3.getText();
+           String mobile_no=(j4.getText());     
+           String course_name=j5.getText();
+           String branch=j6.getText();     
+           String address=j7.getText();
+           if(student_id.isEmpty()|| student_name.isEmpty()){
+              JOptionPane.showMessageDialog(null, "Please Fill up all field");
+           }  
+           else{
+            data_base_update(student_name,student_id,email_id,mobile_no,course_name,branch,year,address);
+        } 
+      }
     
-   
-    //Create Reset method for clear all fields.
-    public void reset()
-    {
-        textField1.setText("");
-        passwordField1.setText("");
-        passwordField2.setText("");
+    });
     }
-     public void paint(Graphics g){
-        super.paint(g);
+        
+          public void data_base_update(String student_name,String student_id,String email_id,String mobile_no,String course_name, String branch, String year, String address){
+          
+          try{ 
+                Conn con = new Conn();               
+                String sql = "INSERT INTO NewStudent VALUES(?,?,?,?,?,?,?,?)";
+		PreparedStatement st = con.c.prepareStatement(sql);
+               
+                
+                st.setString(1,student_name);
+                st.setString(2,student_id);
+                st.setString(3,email_id);
+                st.setString(4,mobile_no);
+                st.setString(5,course_name);
+                st.setString(6,branch);
+                st.setString(7,year);             
+                st.setString(8,address);
+                
+                st.executeUpdate();
+                st.close();
+                
+                    JOptionPane.showMessageDialog(null, "Successfully Added");
+                
+                 }catch(Exception ea){
+                  JOptionPane.showMessageDialog(null,ea); 
+                                
+                }
+            }
+         
+    
+    
+     @Override
+    public void paint(Graphics g) {
+        super.paint(g); 
         
 
-        //1st Rectangle      
+        //creat Rectangle      
         Graphics2D g1 = (Graphics2D) g;
-        g1.setPaint(new Color(0, 0, 0));
+        g1.setPaint(new Color(0, 153, 51));
         g1.setStroke(new BasicStroke(2.0f));
-        g1.drawRoundRect(570, 163, 710, 360, 50, 50);  //50 and 50 is round size & x and y is position of rectangle
-     }
+        g1.drawRoundRect(400, 50, 600, 668, 50, 50);
+        
+        g.setFont(g.getFont().deriveFont(18f));
+        g.drawString("Student name :", 430, 150);
+        g.drawString("Student id :", 430, 210);
+        g.drawString("Email id :", 430, 270);
+        g.drawString("Mobile No :", 430, 330);
+        g.drawString("Course name :", 430,390);
+        g.drawString("Branch :", 430, 450);
+        g.drawString("Year :", 430,510);
+        g.drawString("Address :", 430,570);
+        
+        
+    }
 }
-
