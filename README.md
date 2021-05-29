@@ -2,7 +2,7 @@
 > Using java language
 
 
-[![Contributors][contributors-shield]][https://github.com/UniverseCoding/LibraryManagement/graphs/contributors]
+[![Contributors][contributors-shield]][contributors-url]
 
 ## About The Project
 
